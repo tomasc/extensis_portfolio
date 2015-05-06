@@ -1,8 +1,8 @@
-class ExtensisJob
+class ExtensisTask
 
   # Takes ExtensisSourceImage, tasks and settings Array
 
-  def initialize(source_image, tasks, settings=[])
+  def initialize(name, tasks, settings=[])
     @gallery_id = gallery_id
     @query_term = query_term
     @sort_options = sort_options

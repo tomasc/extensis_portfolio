@@ -5,11 +5,12 @@ class ExtensisPortfolioService
 
   def initialize(params={})
     # NOTE: Probably should be in the settings.yml
-    @server = "http://demo.extensis.com:8090/ws/1.0/AssetService?wsdl"
-    @username = 'kamila.farshchi'
-    @password = 'Mh-kl#Q4TRMm&S8a'
-    @catalog_name = 'EADN – MCA Chicago'
-    @soap_client = Savon.client(wsdl: @server)
+    @server = "http://demo.extensis.com:8090"
+    @username = "kamila.farshchi"
+    @password = "Mh-kl#Q4TRMm&S8a"
+    @catalog_name = "EADN – MCA Chicago"
+    @catalog_id = "87C27791-4420-469D-0FD8-611E790AEDFA"
+    @soap_client = Savon.client(wsdl: "#{@server}/ws/1.0/AssetService?wsdl")
     @session_id = get_session_id
   end
 
@@ -18,12 +19,44 @@ class ExtensisPortfolioService
   end
 
   def get_assets(params={})
-    catalog_id = params.fetch(:catalog_id)
-    @soap_client.call(:get_assets, message: {catalog_id: catalog_id})
+    # catalog_id = params.fetch(:catalog_id)
+    asset_query = ExtensisAssetQuery.new
+    @soap_client.call(:get_assets, message: {session_id: @session_id, catalog_id: @catalog_id, assets: {}}).body
   end
 
   def get_catalogs
-    @soap_client.call(:get_catalogs, message: {session_id: @session_id})
+    @soap_client.call(:get_catalogs, message: {session_id: @session_id}).body
+  end
+
+  def download_file(asset_id="2021")
+    task = {
+      name: "Download",
+      type: "download",
+      catalog_id: @catalog_id
+    }
+    job = {
+      source_image: "original",
+      tasks: [task]
+    }
+    asset_query_term = {
+      field_name: "asset_id",
+      operator: "equalValue",
+      values: asset_id
+    }
+    asset_query = {query_term: asset_query_term}
+    message = {session_id: @session_id, catalog_id: @catalog_id, assets: asset_query, job: job}
+
+    response = @soap_client.call(:run_job, message: message).body
+    job_id = response.fetch(:run_job_response).fetch(:return)
+
+    # GET http://my-portfolio-server.com:8090/FileTransfer/download&sessionId=A0732234-04E7-11E0-B047-83BE4E1E8B7D&jobId=9138C4E4-D43C-D868-39BA-4D82374D8827 HTTP/1.1
+    # Host: my-portfolio-server.com:8090
+    # Connection: close
+    #
+    # params = {:'sessionId' => @session_id, :'jobId' => job_id}
+    response = http_client.get("/FileTransfer/download&sessionId=#{@session_id}&jobId=#{job_id}")
+
+    response.body
   end
 
   private # =============================================================
@@ -35,9 +68,6 @@ class ExtensisPortfolioService
   def run_job(catalog_id, assets, job)
     @soap_client.call(:run_job, message: {session_id: @session_id})
   end
-
-  # def asset_query
-  # end
 
   def login(username, password)
     message = {user_name: @username, encrypted_password: get_encrypted_password}
@@ -59,12 +89,12 @@ class ExtensisPortfolioService
     get_rsa_public_encryption_key.encrypt(@password)
   end
 
-  # def http_client
-  #   Faraday.new(url: 'http://sushi.com') do |faraday|
-  #     faraday.request  :url_encoded             # form-encode POST params
-  #     faraday.response :logger                  # log requests to STDOUT
-  #     faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
-  #   end
-  # end
+  def http_client
+    Faraday.new(url: @server) do |faraday|
+      faraday.request  :url_encoded             # form-encode POST params
+      faraday.response :logger                  # log requests to STDOUT
+      faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
+    end
+  end
 
 end
