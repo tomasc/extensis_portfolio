@@ -1,6 +1,10 @@
 require 'savon'
 require 'faraday'
 
+# connection = ExtensisPortfolio::Connection.new(server, password, …)
+# asset_downloader = ExtensisPortfolio::AssetDownloader.new(connection)
+# asset_downloader.download_job(asset_id) # => ...
+
 class ExtensisPortfolioService
 
   def initialize(params={})
@@ -29,6 +33,19 @@ class ExtensisPortfolioService
   end
 
   def download_file(asset_id="2021")
+    # this should be separate service
+    # 
+    # task = ExtensisPortfolio::Task.new(name, type, catalog_id)
+    # job = ExtensisPortfolio::Job.new(source_image, tasks) # maybe there could be more jobs? not only for assets?
+    # asset_query_term = ExtensisPortfolio::QueryTerm.new(…)
+    # asset_query = ExtensisPortfolio::Term.new(…)
+    # message = ExtensisPortfolio::Message.new(…)
+    # 
+    # response = connection.run_job(message)
+    # job_id = response.…
+    # 
+    # file = asset_downloader.download_job(job_id)
+
     task = {
       name: "Download",
       type: "download",
