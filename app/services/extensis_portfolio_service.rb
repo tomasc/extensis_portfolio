@@ -32,6 +32,13 @@ class ExtensisPortfolioService
     login(@username, @password).body.fetch(:login_response).fetch(:return)
   end
 
+  def run_job(catalog_id, assets, job)
+    @soap_client.call(:run_job, message: {session_id: @session_id})
+  end
+
+  # def asset_query
+  # end
+
   def login(username, password)
     message = {user_name: @username, encrypted_password: get_encrypted_password}
     @soap_client.call(:login, message: message)
@@ -51,10 +58,6 @@ class ExtensisPortfolioService
   def get_encrypted_password
     get_rsa_public_encryption_key.encrypt(@password)
   end
-
-  # def soap_client
-  #   Savon.client(wsdl: @server)
-  # end
 
   # def http_client
   #   Faraday.new(url: 'http://sushi.com') do |faraday|
