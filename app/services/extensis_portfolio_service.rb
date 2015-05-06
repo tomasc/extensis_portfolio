@@ -10,7 +10,7 @@ class ExtensisPortfolioService
     @password = '***REMOVED***'
     @catalog_name = 'EADN – MCA Chicago'
     @soap_client = Savon.client(wsdl: @server)
-    @session_id = login(@username, @password).body.fetch(:login_response).fetch(:return)
+    @session_id = get_session_id
   end
 
   def get_soap_operations
@@ -27,6 +27,10 @@ class ExtensisPortfolioService
   end
 
   private # =============================================================
+
+  def get_session_id
+    login(@username, @password).body.fetch(:login_response).fetch(:return)
+  end
 
   def login(username, password)
     message = {user_name: @username, encrypted_password: get_encrypted_password}
