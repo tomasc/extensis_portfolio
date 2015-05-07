@@ -1,6 +1,6 @@
 # ExtensisPortfolio
 
-A simple wrapper for the Extensis Portfolio API
+A simple wrapper for the Extensis Portfolio API, which uses both SOAP and HTTP.
 
 ## Installation
 
@@ -10,7 +10,7 @@ Add this line to your application's Gemfile:
 gem 'extensis_portfolio'
 ```
 
-And then execute:
+And then run:
 
     $ bundle
 
@@ -18,13 +18,37 @@ Or install it yourself as:
 
     $ gem install extensis_portfolio
 
-## Testing
-
-First `bundle install` the dependencies, then `bundle exec guard`.
-
 ## Usage
 
-TODO: Write usage instructions here
+Create a connection to the Extensis Portfolio API:
+
+```ruby
+connection = ExtensisPortfolio::Connection.new(server, username, password)
+```
+
+Where server is the url including port, without any suffixes e.g. `http://demo.extensis.com:8090`
+
+Return a list of available SOAP operations:
+
+```ruby
+connection.get_soap_operations
+```
+
+Download an asset:
+
+```ruby
+ExtensisPortfolio::AssetDownloader.new(connection, asset_id, catalog_id).download_file
+```
+
+## Testing
+
+The gem comes with a MiniTest / Guard test suite, simply run:
+
+    $ bundle install
+
+Followed by:
+
+    $ bundle exec guard
 
 ## Development
 

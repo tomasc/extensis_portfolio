@@ -1,6 +1,11 @@
 module ExtensisPortfolio
   class AssetDownloader
 
+    # Creates a new instance of ExtensisPortfolio::AssetDownloader
+    #
+    # @param connection [ExtensisPortfolio::Connection]
+    # @param asset_id [String]
+    # @param catalog_id [String]
     def initialize(connection, asset_id, catalog_id)
       @connection = connection
       @session_id = connection.session_id
@@ -13,6 +18,9 @@ module ExtensisPortfolio
       @job = job
     end
 
+    # Runs the HTTP request on the connection and returns a file
+    #
+    # @return [Hash] response of the request
     def download_file
       run_job_message = {
         session_id: @session_id,
