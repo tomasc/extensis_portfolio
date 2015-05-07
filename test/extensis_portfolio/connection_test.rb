@@ -45,8 +45,21 @@ module ExtensisPortfolio
 
     # ---------------------------------------------------------------------
 
+    it 'returns a list of available soap operations' do
+      subject.get_soap_operations.must_include :login
+    end
+
     it 'returns a list of assets' do
       subject.get_assets(catalog_id, query)[:asset_id].must_equal asset_id
+    end
+
+    it 'returns a list of job ids' do
+      subject.get_job_ids.must_be_kind_of Array
+    end
+
+    it 'returns the status of a job' do
+      job_ids = subject.get_job_ids
+      subject.get_status_for_jobs(job_ids).must_equal "foo"
     end
 
   end

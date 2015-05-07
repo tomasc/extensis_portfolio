@@ -4,7 +4,6 @@ module ExtensisPortfolio
     # Creates a new instance of ExtensisPortfolio::AssetDownloader
     #
     # @param connection [ExtensisPortfolio::Connection]
-    # @param asset_id [String]
     # @param catalog_id [String]
     def initialize(connection, catalog_id)
       @connection = connection
@@ -16,48 +15,62 @@ module ExtensisPortfolio
 
     # Runs the HTTP request on the connection and returns a file
     #
+    # @param asset_id [String]
     # @return [Hash] response of the request
     def download_asset(asset_id)
-      http_response.body
+      http_download_file_request(asset_id).body
     end
 
     private # =============================================================
 
     def task
-      ExtensisPortfolio::Task.new("Download asset", "download", @catalog_id).to_hash
+      ExtensisPortfolio::Task.new("Download asset", "download", @catalog_id)
     end
 
     def job
-      ExtensisPortfolio::Job.new("original", [task]).to_hash
+      ExtensisPortfolio::Job.new("original", [task.to_hash])
     end
 
     def asset_query_term(asset_id)
-      ExtensisPortfolio::AssetQueryTerm.new("asset_id", "equal_value", @asset_id).to_hash
+      ExtensisPortfolio::AssetQueryTerm.new("asset_id", "equalValue", asset_id)
     end
 
     def asset_query(asset_id)
-      ExtensisPortfolio::AssetQuery.new(asset_query_term(asset_id)).to_hash
+      ExtensisPortfolio::AssetQuery.new(asset_query_term(asset_id).to_hash)
     end
 
     def run_job_message(asset_id)
+      p job.to_hash
+      p asset_query(asset_id).to_hash
+
       {
         session_id: @session_id,
         catalog_id: @catalog_id,
-        assets: asset_query(asset_id),
+        assets: asset_query(asset_id).to_hash,
         job: job.to_hash
       }
     end
 
-    def run_job_request
+    # FIXME: I think we could fix this by making a Logger and check the actual
+    # outputted XML request sent by Savon, with a correct request?
+    # http://savonrb.com/version2/globals.html under "Logging"
+    def run_job_request(asset_id)
       @soap_client.call(:run_job, message: run_job_message(asset_id))
     end
 
-    def job_id
-      run_job_request.body.fetch(:run_job_response).fetch(:return)
+    def get_job_id(asset_id)
+      run_job_request(asset_id).body.fetch(:run_job_response).fetch(:return)
     end
 
-    def http_response
-       @http_client.get("/FileTransfer/download&sessionId=#{@session_id}&jobId=#{job_id}")
+    def http_download_file_request(asset_id)
+      job_id = get_job_id(asset_id)
+
+      p @connection.get_status_for_jobs([job_id])
+
+      # p job_id
+      # p "/FileTransfer/download&sessionId=#{@session_id}&jobId=#{job_id}"
+
+      @http_client.get("/FileTransfer/download&sessionId=#{@session_id}&jobId=#{job_id}")
     end
 
   end

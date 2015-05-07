@@ -28,10 +28,16 @@ connection = ExtensisPortfolio::Connection.new(server, username, password)
 
 Where server is the url including port, without any suffixes e.g. `http://demo.extensis.com:8090`
 
-Return a list of available SOAP operations:
+Get a list of available SOAP operations:
 
 ```ruby
 connection.get_soap_operations
+```
+
+Query for assets in a catalog:
+
+```ruby
+connection.get_assets(catalog_id, query)
 ```
 
 Download an asset:

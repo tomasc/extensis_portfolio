@@ -60,11 +60,30 @@ module ExtensisPortfolio
     # @param catalog_id [String]
     # @param query [AssetQuery]
     # @param result_options [Hash] optional hash with options how to display the results
-    # @return [?]
+    # @return [Array]
     def get_assets(catalog_id, query, result_options={})
       message = {session_id: @session_id, catalog_id: catalog_id, assets: query.to_hash, result_options: result_options}
 
       @soap_client.call(:get_assets, message: message).body[:get_assets_response][:return][:assets]
+    end
+
+    # Returns a list of job ids
+    #
+    # @return [Array]
+    def get_job_ids
+      message = {session_id: @session_id}
+
+      @soap_client.call(:get_job_i_ds, message: message).body[:get_job_i_ds_response][:return]
+    end
+
+    # Get the status of a job
+    #
+    # @param job_ids [Array] array of job ids
+    # @return [Array]
+    def get_status_for_jobs(job_ids)
+      message = { session_id: @session_id, job_ids: job_ids}
+
+      @soap_client.call(:get_status_for_jobs, message: message).body[:get_status_for_jobs_response][:return]
     end
 
     private # =============================================================
