@@ -1,4 +1,4 @@
-# ExtensisPortfolio
+# Extensis Portfolio
 
 A simple wrapper for the Extensis Portfolio API, which uses both SOAP and HTTP.
 
