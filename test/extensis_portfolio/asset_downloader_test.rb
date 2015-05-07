@@ -10,18 +10,12 @@ module ExtensisPortfolio
     let(:asset_id) { "2021" }
     let(:catalog_id) { "***REMOVED***" }
 
-    subject { ExtensisPortfolio::AssetDownloader.new(connection, asset_id, catalog_id) }
+    subject { ExtensisPortfolio::AssetDownloader.new(connection, catalog_id) }
 
     # ---------------------------------------------------------------------
 
-    it 'can download a file' do
-      subject.must_respond_to :download_file
-    end
-
-    describe 'download_file' do
-      it 'returns a file' do
-        subject.download_file.must_equal "foo"
-      end
+    it 'returns a file' do
+      subject.download_asset(asset_id).must_equal "foo"
     end
 
   end

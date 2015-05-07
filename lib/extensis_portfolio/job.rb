@@ -16,7 +16,7 @@ module ExtensisPortfolio
     def to_hash
       {
         source_image: @source_image,
-        tasks: @tasks
+        tasks: @tasks.map{ |t| t.to_hash }
       }
     end
 
