@@ -1,21 +1,19 @@
 require 'minitest_helper'
+require 'tempfile'
 
 module ExtensisPortfolio
   describe AssetDownloader do
+    @@connection = ExtensisPortfolio::Connection.new(ENV['SERVER'], ENV['USERNAME'], ENV['PASSWORD'], {logger: Logger.new('test_logfile.log'), log_level: :debug})
 
-    let(:server) { "http://demo.extensis.com:8090" }
-    let(:username) { "***REMOVED***" }
-    let(:password) { "***REMOVED***" }
-    let(:connection) { ExtensisPortfolio::Connection.new(server, username, password) }
-    let(:asset_id) { "2018" }
+    let(:asset_id) { "2106" }
     let(:catalog_id) { "***REMOVED***" }
 
-    subject { ExtensisPortfolio::AssetDownloader.new(connection, catalog_id) }
+    subject { ExtensisPortfolio::AssetDownloader.new(@@connection, catalog_id) }
 
     # ---------------------------------------------------------------------
 
     it 'returns a file' do
-      subject.download_asset(asset_id).must_equal "foo"
+      subject.download_asset(asset_id).length.must_equal 908532
     end
 
   end

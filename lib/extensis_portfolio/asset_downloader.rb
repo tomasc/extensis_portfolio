@@ -40,9 +40,6 @@ module ExtensisPortfolio
     end
 
     def run_job_message(asset_id)
-      p job.to_hash
-      p asset_query(asset_id).to_hash
-
       {
         session_id: @session_id,
         catalog_id: @catalog_id,
@@ -51,9 +48,6 @@ module ExtensisPortfolio
       }
     end
 
-    # FIXME: I think we could fix this by making a Logger and check the actual
-    # outputted XML request sent by Savon, with a correct request?
-    # http://savonrb.com/version2/globals.html under "Logging"
     def run_job_request(asset_id)
       @soap_client.call(:run_job, message: run_job_message(asset_id))
     end
@@ -65,12 +59,7 @@ module ExtensisPortfolio
     def http_download_file_request(asset_id)
       job_id = get_job_id(asset_id)
 
-      p @connection.get_status_for_jobs([job_id])
-
-      # p job_id
-      # p "/FileTransfer/download&sessionId=#{@session_id}&jobId=#{job_id}"
-
-      @http_client.get("/FileTransfer/download&sessionId=#{@session_id}&jobId=#{job_id}")
+      @http_client.get("/FileTransfer/download", {:sessionId => @session_id, :jobId => job_id})
     end
 
   end

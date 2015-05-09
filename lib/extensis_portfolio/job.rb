@@ -7,7 +7,7 @@ module ExtensisPortfolio
     # @param tasks [Array] array of tasks
     def initialize(source_image, tasks)
       @source_image = source_image
-      @tasks = tasks
+      @tasks = tasks.map{ |t| t.to_hash }
     end
 
     # Returns a Hash for use in a soap request
@@ -16,7 +16,7 @@ module ExtensisPortfolio
     def to_hash
       {
         source_image: @source_image,
-        tasks: @tasks.map{ |t| t.to_hash }
+        tasks: @tasks
       }
     end
 
