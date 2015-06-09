@@ -25,7 +25,7 @@ module ExtensisPortfolio
     # @param server [String]
     # @param username [String]
     # @param password [String]
-    def initialize(server, username, password, options={})
+    def initialize server, username, password, options={}
       @username = username
       @password = password
       savon_options = options.merge({wsdl: "#{server}/ws/1.0/AssetService?wsdl"})
@@ -39,7 +39,7 @@ module ExtensisPortfolio
     # @param username [String]
     # @param password [String]
     # @return [Savon::Response]
-    def login(username, password)
+    def login username, password
       message = {user_name: @username, encrypted_password: get_encrypted_password}
 
       @soap_client.call(:login, message: message)
@@ -65,12 +65,11 @@ module ExtensisPortfolio
     # @param query [AssetQuery]
     # @param result_options [Hash] optional hash with options how to display the results
     # @return [Array]
-    def get_assets(catalog_id, query, result_options={})
+    def get_assets catalog_id, query, result_options={}
       message = {session_id: @session_id, catalog_id: catalog_id, assets: query.to_hash, result_options: result_options}
 
       @soap_client.call(:get_assets, message: message).body[:get_assets_response][:return][:assets]
     end
-
 
     # Returns the asset that has the provided id
     #
@@ -78,11 +77,20 @@ module ExtensisPortfolio
     # @param asset_id [String]
     # @param result_options [Hash] optional hash with options how to display the results
     # @return [Hash]
-    def get_asset_by_id(catalog_id, asset_id, result_options={})
+    def get_asset_by_id catalog_id, asset_id, result_options={}
       query_term = ExtensisPortfolio::AssetQueryTerm.new("asset_id", "equalValue", asset_id)
       query = ExtensisPortfolio::AssetQuery.new(query_term.to_hash)
 
       get_assets(catalog_id, query, result_options)
+    end
+
+    # Returns a list of catalogs
+    #
+    # @return [Array]
+    def get_catalogs
+      message = {session_id: @session_id}
+
+      @soap_client.call(:get_catalogs, message: message).body[:get_catalogs_response][:return]
     end
 
     # Returns a list of job ids
@@ -98,8 +106,8 @@ module ExtensisPortfolio
     #
     # @param job_ids [Array] array of job ids
     # @return [Array]
-    def get_status_for_jobs(job_ids)
-      message = { session_id: @session_id, job_ids: job_ids}
+    def get_status_for_jobs job_ids
+      message = {session_id: @session_id, job_ids: job_ids}
 
       @soap_client.call(:get_status_for_jobs, message: message).body[:get_status_for_jobs_response][:return]
     end
@@ -108,7 +116,7 @@ module ExtensisPortfolio
     #
     # @param job_id [String] job id
     # @return [Hash]
-    def get_error_details_for_job(job_id)
+    def get_error_details_for_job job_id
       message = {session_id: @session_id, job_id: job_id}
 
       @soap_client.call(:get_error_details_for_job, message: message).body[:get_error_details_for_job_response][:return]
