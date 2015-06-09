@@ -5,7 +5,7 @@ module ExtensisPortfolio
     @@connection = ExtensisPortfolio::Connection.new(ENV['SERVER'], ENV['USERNAME'], ENV['PASSWORD'], {logger: Logger.new('test_logfile.log'), log_level: :debug})
 
     let(:asset_id) { "2106" }
-    let(:catalog_id) { "***REMOVED***" }
+    let(:catalog_id) { ENV['CATALOG_ID'] }
     let(:query_term) { ExtensisPortfolio::AssetQueryTerm.new("asset_id", "equalValue", asset_id) }
     let(:query) { ExtensisPortfolio::AssetQuery.new(query_term) }
 
@@ -43,6 +43,10 @@ module ExtensisPortfolio
 
     it 'returns a list of available soap operations' do
       @@connection.get_soap_operations.must_include :login
+    end
+
+    it 'returns a list of catalogs' do
+      @@connection.get_catalogs.must_be_kind_of Savon::Client
     end
 
     it 'returns a list of assets' do

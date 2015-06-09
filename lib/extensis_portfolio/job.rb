@@ -5,7 +5,7 @@ module ExtensisPortfolio
     #
     # @param source_image [String] source image, either `original` or `preview`
     # @param tasks [Array] array of tasks
-    def initialize(source_image, tasks)
+    def initialize source_image, tasks
       @source_image = source_image
       @tasks = tasks.map{ |t| t.to_hash }
     end

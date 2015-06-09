@@ -4,7 +4,7 @@ module ExtensisPortfolio
     # Creates a new instance of ExtensisPortfolio::AssetQuery
     #
     # @param query_term [ExtensisPortfolio::AssetQueryTerm]
-    def initialize(query_term)
+    def initialize query_term
       @query_term = query_term
     end
 
