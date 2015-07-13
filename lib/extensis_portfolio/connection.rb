@@ -48,7 +48,9 @@ module ExtensisPortfolio
     # Logs out the soap client, making the session id invalid
     #
     def logout
-      @soap_client.call(:logout)
+      message = {session_id: @session_id}
+
+      @soap_client.call(:logout, message: message)
     end
 
     # Returns a list of available soap operations
