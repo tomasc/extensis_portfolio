@@ -2,10 +2,9 @@ require 'minitest_helper'
 
 module ExtensisPortfolio
   describe AssetQueryTerm do
-
-    let(:field_name) { "asset_id" }
-    let(:operator) { "equalValue" }
-    let(:values) { "2021" }
+    let(:field_name) { 'asset_id' }
+    let(:operator) { 'equalValue' }
+    let(:values) { '2021' }
 
     subject { ExtensisPortfolio::AssetQueryTerm.new(field_name, operator, values) }
 
@@ -24,6 +23,5 @@ module ExtensisPortfolio
 
       subject.to_hash.must_equal hash
     end
-
   end
 end

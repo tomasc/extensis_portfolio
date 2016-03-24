@@ -1,13 +1,12 @@
 module ExtensisPortfolio
   class Task
-
     # Creates a new ExtensisPortfolio::Task
     #
     # @param name [String] the name of the task
     # @param type [String] the type of task, [list of options](http://doc.extensis.com/api/portfolio/assets_taskType.html)
     # @param catalog_id [String] the catalog id
     # @param settings [Array] optional settings
-    def initialize name, type, catalog_id, settings=[]
+    def initialize(name, type, catalog_id, settings = [])
       @name = name
       @type = type
       @catalog_id = catalog_id
@@ -25,6 +24,5 @@ module ExtensisPortfolio
         settings: @settings
       }
     end
-
   end
 end
