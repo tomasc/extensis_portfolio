@@ -11,6 +11,6 @@ require "extensis_portfolio"
 
 
 ENV['SERVER'] = "http://demo.extensis.com:8090"
-ENV['USERNAME'] = "USERNAME"
-ENV['PASSWORD'] = "PASSWORD"
-ENV['CATALOG_ID'] = "***REMOVED***"
+ENV['USERNAME'] = "XXXXXXXXX"
+ENV['PASSWORD'] = "XXXXXXXXX"
+ENV['CATALOG_ID'] = "XXXXXXXXX"
