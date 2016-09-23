@@ -1867,7 +1867,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: |-
-        <?xml version="1.0" encoding="UTF-8"?><env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://portfolio.extensis/service/asset" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"><env:Body><tns:login><userName>***REMOVED***</userName><encryptedPassword>Ef9XbylwNlWukgBJzQDh4xsamPHyhwI9jlV2Qg9JyCjhL4/F0K/SQatMBJef
+        <?xml version="1.0" encoding="UTF-8"?><env:Envelope xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://portfolio.extensis/service/asset" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"><env:Body><tns:login><userName>kamila.farshchi</userName><encryptedPassword>Ef9XbylwNlWukgBJzQDh4xsamPHyhwI9jlV2Qg9JyCjhL4/F0K/SQatMBJef
         sL+th8D+KTku8gWUPsi6sAUnyq07tpgaCUuj1ZLAID4lnBanY2cUP41YBMCB
         b27HF3GtmoEvgCr+0efjka/giYoPvGxl9L/gGwRuj5u6k96QTTHCA0sd4TIe
         Ap2mZs6/tkKJWdwDAVK/Ulpo1n3SfGt4lWjtMLslxANbTr2ZTDa/pa9unScL
