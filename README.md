@@ -1,5 +1,7 @@
 # Extensis Portfolio
 
+[![Build Status](https://travis-ci.org/tomasc/extensis_portfolio.svg)](https://travis-ci.org/tomasc/extensis_portfolio) [![Gem Version](https://badge.fury.io/rb/extensis_portfolio.svg)](http://badge.fury.io/rb/extensis_portfolio)
+
 A simple wrapper for the Extensis Portfolio API, which uses both SOAP and HTTP.
 
 ## Installation
