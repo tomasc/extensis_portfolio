@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    extensis_portfolio (0.1.1)
+    extensis_portfolio (0.1.2)
       faraday (~> 0.9)
       savon (~> 2.11)
 
@@ -48,7 +48,7 @@ GEM
       rb-inotify (>= 0.9)
     lumberjack (1.0.9)
     method_source (0.8.2)
-    mini_portile2 (2.0.0)
+    mini_portile2 (2.1.0)
     minispec-metadata (2.0.0)
       minitest
     minitest (5.6.1)
@@ -58,17 +58,19 @@ GEM
       vcr (>= 2.9)
     multipart-post (2.0.0)
     nenv (0.2.0)
-    nokogiri (1.6.7.2)
-      mini_portile2 (~> 2.0.0.rc2)
+    nokogiri (1.6.8)
+      mini_portile2 (~> 2.1.0)
+      pkg-config (~> 1.1.7)
     nori (2.6.0)
     notiffany (0.0.6)
       nenv (~> 0.1)
       shellany (~> 0.0)
+    pkg-config (1.1.7)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    rack (1.6.4)
+    rack (2.0.1)
     rake (10.4.2)
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
