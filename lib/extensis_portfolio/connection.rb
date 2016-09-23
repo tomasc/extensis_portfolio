@@ -119,7 +119,6 @@ module ExtensisPortfolio
     # @return [Hash]
     def get_error_details_for_job(job_id)
       message = { session_id: @session_id, job_id: job_id }
-
       @soap_client.call(:get_error_details_for_job, message: message).body[:get_error_details_for_job_response][:return]
     end
 
