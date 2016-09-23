@@ -13,3 +13,4 @@
 /tmp
 /test/log
 *.log
+*.gem
