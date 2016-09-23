@@ -11,7 +11,7 @@ require 'extensis_portfolio'
 
 ENV['SERVER'] = 'http://playground.extensis.com:8090'
 ENV['USERNAME'] = 'USERNAME'
-ENV['PASSWORD'] = '???????????????'
+ENV['PASSWORD'] = 'PASSWORD'
 ENV['CATALOG_ID'] = 'DB422C34-4943-9496-F301-B781AAB574BA'
 
 require 'minitest-vcr'
